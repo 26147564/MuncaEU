@@ -4,11 +4,19 @@ import re
 
 import psycopg
 from psycopg.rows import dict_row
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_file
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parent
 DATABASE_URL = os.environ.get("DATABASE_URL")
 app = Flask(__name__)
+
+
+def homepage_file():
+    for filename in ("europe-work-finder.html", "europe-work-finder_v3.html", "europe-work-finder_v2.html"):
+        file = ROOT / filename
+        if file.is_file():
+            return file
+    return None
 
 
 def connection():
@@ -19,7 +27,18 @@ def connection():
 
 @app.get("/")
 def home():
-    return send_from_directory(ROOT, "europe-work-finder.html")
+    file = homepage_file()
+    if file:
+        return send_file(file, mimetype="text/html")
+    return jsonify(
+        error="Homepage HTML file is missing.",
+        expected_files=["europe-work-finder.html", "europe-work-finder_v3.html"],
+    ), 500
+
+
+@app.get("/api/health")
+def health():
+    return jsonify(status="ok", homepage_found=homepage_file() is not None)
 
 
 @app.post("/api/applications")
@@ -44,7 +63,8 @@ def create_application():
         return jsonify(error="Unul dintre câmpuri este prea lung."), 400
 
     with connection() as db, db.cursor() as cur:
-        cur.execute("""
+        cur.execute(
+            """
             INSERT INTO applicant (full_name, email, phone, residence_country)
             VALUES (%s, %s, %s, %s)
             ON CONFLICT (email) DO UPDATE SET
@@ -52,12 +72,17 @@ def create_application():
                 phone = EXCLUDED.phone,
                 residence_country = EXCLUDED.residence_country
             RETURNING applicant_id
-        """, (full_name, email, phone, country))
+            """,
+            (full_name, email, phone, country),
+        )
         applicant_id = cur.fetchone()["applicant_id"]
-        cur.execute("""
+        cur.execute(
+            """
             INSERT INTO job_application (applicant_id, job_title, message, consent_given)
             VALUES (%s, %s, %s, TRUE)
-        """, (applicant_id, job_title, message))
+            """,
+            (applicant_id, job_title, message),
+        )
 
     return jsonify(message="Candidatura a fost salvată."), 201
 
