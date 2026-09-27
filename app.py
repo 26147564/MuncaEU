@@ -12,7 +12,11 @@ app = Flask(__name__)
 
 
 def homepage_file():
-    for filename in ("europe-work-finder.html_RO", "europe-work-finder_v3.html", "europe-work-finder_v2.html"):
+    for filename in (
+        "europe-work-finder.html",
+        "europe-work-finder_v3.html",
+        "europe-work-finder_v2.html",
+    ):
         file = ROOT / filename
         if file.is_file():
             return file
@@ -59,30 +63,40 @@ def create_application():
     country = str(data["residence_country"]).strip()
     job_title = str(data["job_title"]).strip()
     message = str(data["message"]).strip()
-    if len(full_name) > 120 or len(phone) > 30 or len(country) > 100 or len(job_title) > 160 or len(message) > 2000:
+    if (
+        len(full_name) > 120
+        or len(phone) > 30
+        or len(country) > 100
+        or len(job_title) > 160
+        or len(message) > 2000
+    ):
         return jsonify(error="Unul dintre câmpuri este prea lung."), 400
 
-    with connection() as db, db.cursor() as cur:
-        cur.execute(
-            """
-            INSERT INTO applicant (full_name, email, phone, residence_country)
-            VALUES (%s, %s, %s, %s)
-            ON CONFLICT (email) DO UPDATE SET
-                full_name = EXCLUDED.full_name,
-                phone = EXCLUDED.phone,
-                residence_country = EXCLUDED.residence_country
-            RETURNING applicant_id
-            """,
-            (full_name, email, phone, country),
-        )
-        applicant_id = cur.fetchone()["applicant_id"]
-        cur.execute(
-            """
-            INSERT INTO job_application (applicant_id, job_title, message, consent_given)
-            VALUES (%s, %s, %s, TRUE)
-            """,
-            (applicant_id, job_title, message),
-        )
+    try:
+        with connection() as db, db.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO applicant (full_name, email, phone, residence_country)
+                VALUES (%s, %s, %s, %s)
+                ON CONFLICT (email) DO UPDATE SET
+                    full_name = EXCLUDED.full_name,
+                    phone = EXCLUDED.phone,
+                    residence_country = EXCLUDED.residence_country
+                RETURNING applicant_id
+                """,
+                (full_name, email, phone, country),
+            )
+            applicant_id = cur.fetchone()["applicant_id"]
+            cur.execute(
+                """
+                INSERT INTO job_application (applicant_id, job_title, message, consent_given)
+                VALUES (%s, %s, %s, TRUE)
+                """,
+                (applicant_id, job_title, message),
+            )
+    except Exception:
+        app.logger.exception("Could not save application")
+        return jsonify(error="Candidatura nu a putut fi salvată. Încearcă din nou."), 500
 
     return jsonify(message="Candidatura a fost salvată."), 201
 

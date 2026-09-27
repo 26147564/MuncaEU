@@ -18,10 +18,3 @@ CREATE TABLE IF NOT EXISTS job_application (
 
 CREATE INDEX IF NOT EXISTS idx_job_application_applicant
 ON job_application(applicant_id);
-
--- View saved applications:
--- SELECT a.full_name, a.email, a.phone, a.residence_country,
---        j.job_title, j.message, j.submitted_at
--- FROM job_application AS j
--- JOIN applicant AS a ON a.applicant_id = j.applicant_id
--- ORDER BY j.submitted_at DESC;
