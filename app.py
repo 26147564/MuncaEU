@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 def homepage_file():
-    for filename in ("europe-work-finder.html", "europe-work-finder_v3.html", "europe-work-finder_v2.html"):
+    for filename in ("europe-work-finder.html_RO", "europe-work-finder_v3.html", "europe-work-finder_v2.html"):
         file = ROOT / filename
         if file.is_file():
             return file
