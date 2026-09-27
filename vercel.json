@@ -3,11 +3,7 @@
   "functions": {
     "app.py": {
       "maxDuration": 10,
-      "includeFiles": [
-        "europe-work-finder.html",
-        "europe-work-finder_v2.html",
-        "europe-work-finder_v3.html"
-      ]
+      "includeFiles": "europe-work-finder*.html"
     }
   },
   "rewrites": [
