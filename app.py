@@ -30,6 +30,7 @@ def connection():
 
 
 @app.get("/")
+@app.get("/app.py")
 def home():
     file = homepage_file()
     if file:
