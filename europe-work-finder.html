@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkWay Europe | Găsește un loc de muncă în Europa</title>
+  <style>
+    :root { --ink:#152238; --muted:#64748b; --blue:#1769e0; --sky:#eaf3ff; --orange:#f97316; --line:#dce5f0; --card:#fff; --bg:#f6f9fd; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+    a { color:inherit; text-decoration:none; }
+    button,input,select,textarea { font:inherit; }
+    .wrap { max-width:1180px; margin:auto; padding:0 24px; }
+    .nav { height:76px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:1px solid var(--line); }
+    .brand { font-weight:850; font-size:22px; letter-spacing:-.8px; color:var(--blue); }
+    .brand span { color:var(--orange); }
+    .nav-links { display:flex; gap:26px; color:#40516a; font-size:14px; font-weight:650; }
+    .nav-links a:hover { color:var(--blue); }
+    .btn { border:0; border-radius:9px; cursor:pointer; padding:12px 18px; font-weight:750; transition:.2s; }
+    .btn:hover { transform:translateY(-1px); filter:brightness(.96); }
+    .btn-primary { background:var(--blue); color:#fff; }
+    .btn-outline { background:#fff; color:var(--blue); border:1px solid #b9d4fa; }
+    .hero { background:radial-gradient(circle at 82% 8%,#c9e1ff 0,transparent 28%),linear-gradient(121deg,#0d3067,#1769e0); color:white; padding:74px 0 88px; overflow:hidden; }
+    .hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:55px; align-items:center; }
+    .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:1.3px; font-weight:800; color:#a9d3ff; }
+    h1 { font-size:clamp(38px,5vw,61px); line-height:1.04; letter-spacing:-2.5px; margin:13px 0 20px; }
+    .hero p { max-width:580px; color:#d9eaff; font-size:18px; line-height:1.6; margin:0 0 29px; }
+    .search { background:#fff; color:var(--ink); padding:12px; border-radius:13px; display:grid; grid-template-columns:1.1fr .8fr .8fr auto; gap:9px; box-shadow:0 15px 34px #071c3e52; }
+    .search-field { border:1px solid var(--line); border-radius:8px; padding:8px 11px; min-width:0; }
+    .search-field label { display:block; font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:800; letter-spacing:.7px; }
+    .search-field input,.search-field select { padding:3px 0 0; width:100%; border:0; outline:0; color:#24344d; background:transparent; font-weight:600; }
+    .search .btn { padding:12px 19px; }
+    .trust { display:flex; gap:22px; margin-top:27px; color:#cce3ff; font-size:13px; font-weight:650; flex-wrap:wrap; }
+    .trust b { color:#fff; font-size:17px; margin-right:5px; }
+    .hero-card { background:#fff; color:var(--ink); border-radius:20px; padding:24px; box-shadow:0 25px 45px #06172f70; transform:rotate(2deg); }
+    .card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:19px; }
+    .badge { background:#e9f8ef; color:#15803d; padding:6px 10px; font-size:11px; font-weight:800; border-radius:99px; }
+    .match { color:var(--blue); font-weight:800; font-size:13px; }
+    .job-company { color:var(--muted); font-size:13px; }
+    .job-title { font-size:23px; font-weight:850; margin:5px 0 16px; letter-spacing:-.5px; }
+    .tags { display:flex; gap:7px; flex-wrap:wrap; }
+    .tag { background:#f0f4f8; border-radius:99px; padding:6px 9px; color:#516174; font-size:11px; font-weight:700; }
+    .mini-line { border-top:1px solid var(--line); margin:19px 0 14px; }
+    .job-bottom { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+    .salary { font-weight:850; }
+    section { padding:78px 0; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:29px; }
+    .section-head h2 { font-size:32px; margin:7px 0 0; letter-spacing:-1.2px; }
+    .section-head p { color:var(--muted); margin:0; max-width:480px; line-height:1.5; }
+    .countries { display:grid; grid-template-columns:repeat(3,1fr); gap:19px; }
+    .country { position:relative; overflow:hidden; border-radius:15px; min-height:286px; padding:24px; color:white; display:flex; flex-direction:column; justify-content:end; cursor:pointer; transition:.2s; }
+    .country:hover { transform:translateY(-4px); box-shadow:0 15px 25px #193c661c; }
+    .country:before { content:""; position:absolute; inset:0; opacity:.9; }
+    .romania:before { background:linear-gradient(145deg,#112c69,#2962c4 52%,#f3b51b); }
+    .germany:before { background:linear-gradient(145deg,#151515,#363636 45%,#c83b3b); }
+    .denmark:before { background:linear-gradient(145deg,#811d2a,#cb3e50); }
+    .country > * { position:relative; }
+    .flag { font-size:36px; margin-bottom:auto; }
+    .country h3 { margin:0; font-size:25px; }
+    .country p { margin:6px 0 12px; color:#f5f8ff; font-size:14px; }
+    .country a { font-size:13px; font-weight:800; }
+    .jobs-area { background:#eff6ff; }
+    .filters { display:flex; flex-wrap:wrap; gap:9px; }
+    .filter { border:1px solid #cad9ed; border-radius:99px; padding:9px 14px; background:#fff; cursor:pointer; color:#506176; font-size:13px; font-weight:700; }
+    .filter.active,.filter:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+    .jobs { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; margin-top:24px; }
+    .job { background:#fff; padding:20px; border:1px solid var(--line); border-radius:13px; }
+    .job h3 { margin:9px 0 7px; font-size:18px; }
+    .job p { margin:0 0 15px; color:var(--muted); font-size:13px; }
+    .job .job-bottom { border-top:1px solid var(--line); padding-top:14px; }
+    .apply { color:var(--blue); font-weight:800; cursor:pointer; }
+    .hidden { display:none; }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; counter-reset:step; }
+    .step { position:relative; padding-left:63px; }
+    .step:before { counter-increment:step; content:"0" counter(step); position:absolute; left:0; top:-6px; color:#b9d4fa; font-size:37px; font-weight:900; }
+    .step h3 { margin:0 0 7px; font-size:18px; }
+    .step p { margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
+    .contact { background:#132a4b; color:#fff; }
+    .contact-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:80px; }
+    .contact h2 { font-size:37px; margin:9px 0 14px; letter-spacing:-1.2px; }
+    .contact p { color:#c6d5e7; line-height:1.6; }
+    .contact-details { margin-top:27px; display:grid; gap:12px; color:#dceafa; font-size:14px; }
+    .contact-form { background:#fff; padding:24px; border-radius:14px; color:var(--ink); display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+    .contact-form input,.contact-form textarea { border:1px solid var(--line); outline:none; border-radius:8px; padding:12px; width:100%; }
+    .contact-form textarea,.contact-form .wide { grid-column:span 2; }
+    .contact-form textarea { min-height:96px; resize:vertical; }
+    .form-message { grid-column:span 2; color:#15803d; font-weight:700; font-size:13px; display:none; }
+    footer { padding:26px 0; background:#0d1e37; color:#bacbe0; font-size:13px; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+    @media(max-width:850px) { .hero-grid,.contact-grid { grid-template-columns:1fr; } .hero-card { max-width:480px; transform:none; } .jobs { grid-template-columns:repeat(2,1fr); } .search { grid-template-columns:1fr 1fr; } .search .btn { grid-column:span 2; } }
+    @media(max-width:600px) { .nav { padding:0 20px; } .nav-links { display:none; } .hero { padding:54px 0 65px; } .countries,.jobs,.steps { grid-template-columns:1fr; } .section-head { align-items:start; flex-direction:column; } .contact-form { grid-template-columns:1fr; } .contact-form textarea,.contact-form .wide,.form-message { grid-column:span 1; } .search { grid-template-columns:1fr; } .search .btn { grid-column:auto; } }
+  </style>
+</head>
+<body>
+  <nav class="nav wrap">
+    <a class="brand" href="#home">Work<span>Way</span> Europe</a>
+    <div class="nav-links"><a href="#countries">Țări</a><a href="#jobs">Locuri de muncă</a><a href="#how">Cum funcționează</a><a href="#contact">Contactează-ne</a></div>
+    <a class="btn btn-outline" href="#jobs">Caută joburi</a>
+  </nav>
+  <main id="home">
+    <section class="hero"><div class="wrap hero-grid"><div>
+      <div class="eyebrow">Cariera ta europeană începe aici</div>
+      <h1>Găsește un job. Evoluează. Simte-te acasă.</h1>
+      <p>Descoperă joburi verificate, ghidare pentru relocare și sprijin din partea angajatorilor în România, Germania și Danemarca.</p>
+      <div class="search">
+        <div class="search-field"><label>Funcție sau competență</label><input id="keyword" placeholder="ex.: Lucrător în depozit" /></div>
+        <div class="search-field"><label>Țară</label><select id="countrySelect"><option value="all">Toate țările</option><option value="Romania">România</option><option value="Germany">Germania</option><option value="Denmark">Danemarca</option></select></div>
+        <div class="search-field"><label>Tip de muncă</label><select><option>Orice tip</option><option>Normă întreagă</option><option>Temporar</option></select></div>
+        <button class="btn btn-primary" onclick="searchJobs()">Caută joburi</button>
+      </div>
+      <div class="trust"><span><b>1,200+</b> joburi active</span><span><b>320+</b> angajatori de încredere</span><span><b>3</b> țări</span></div>
+    </div><aside class="hero-card"><div class="card-top"><span class="badge">Angajator verificat</span><span class="match">Potrivire 92%</span></div><div class="job-company">NordLogistics • Copenhaga, Danemarca</div><div class="job-title">Lucrător în depozit</div><div class="tags"><span class="tag">Normă întreagă</span><span class="tag">Engleza acceptată</span><span class="tag">Sprijin pentru relocare</span></div><div class="mini-line"></div><div class="job-bottom"><span class="salary">€2.600–€3.000 / lună</span><span>Vezi jobul →</span></div></aside></div></section>
+    <section id="countries"><div class="wrap"><div class="section-head"><div><div class="eyebrow" style="color:var(--blue)">Alege destinația</div><h2>Oportunități de muncă în Europa</h2></div><p>Explorează joburi pe țări și informații practice despre salarii, limbă, cazare și mutarea în străinătate.</p></div><div class="countries">
+      <article class="country romania"><div class="flag">🇷🇴</div><h3>România</h3><p>Tehnologie, producție, suport clienți și ospitalitate.</p><a href="#jobs" onclick="setCountry('Romania')">Explorează joburile →</a></article>
+      <article class="country germany"><div class="flag">🇩🇪</div><h3>Germania</h3><p>Inginerie, logistică, sănătate și meserii calificate.</p><a href="#jobs" onclick="setCountry('Germany')">Explorează joburile →</a></article>
+      <article class="country denmark"><div class="flag">🇩🇰</div><h3>Danemarca</h3><p>Energie verde, construcții, transport și științele vieții.</p><a href="#jobs" onclick="setCountry('Denmark')">Explorează joburile →</a></article>
+    </div></div></section>
+    <section class="jobs-area" id="jobs"><div class="wrap"><div class="section-head"><div><div class="eyebrow" style="color:var(--blue)">Cele mai noi posturi</div><h2>Joburi potrivite pentru următorul tău pas</h2></div><div class="filters"><button class="filter active" data-country="all">Toate</button><button class="filter" data-country="Romania">România</button><button class="filter" data-country="Germany">Germania</button><button class="filter" data-country="Denmark">Danemarca</button></div></div>
+      <div class="jobs" id="jobList">
+        <article class="job" data-country="Germany" data-title="Operator producție"><span class="badge">Verificat</span><h3>Operator producție</h3><p>AutoTech GmbH · Stuttgart, Germania</p><div class="tags"><span class="tag">Normă întreagă</span><span class="tag">€2.400/lună</span></div><div class="job-bottom"><span>Publicat acum 2 zile</span><span class="apply">Aplică →</span></div></article>
+        <article class="job" data-country="Denmark" data-title="Lucrător în depozit"><span class="badge">Verificat</span><h3>Lucrător în depozit</h3><p>NordLogistics · Copenhaga, Danemarca</p><div class="tags"><span class="tag">Engleza acceptată</span><span class="tag">€2.600/lună</span></div><div class="job-bottom"><span>Publicat astăzi</span><span class="apply">Aplică →</span></div></article>
+        <article class="job" data-country="Romania" data-title="Specialist suport clienți"><span class="badge">Verificat</span><h3>Specialist suport clienți</h3><p>ConnectHub · București, România</p><div class="tags"><span class="tag">Hibrid</span><span class="tag">€1.250/lună</span></div><div class="job-bottom"><span>Publicat acum 1 zi</span><span class="apply">Aplică →</span></div></article>
+        <article class="job" data-country="Germany" data-title="Asistent îngrijire"><span class="badge">Verificat</span><h3>Asistent îngrijire</h3><p>PflegePlus · Hamburg, Germania</p><div class="tags"><span class="tag">Instruire inclusă</span><span class="tag">€2.300/lună</span></div><div class="job-bottom"><span>Publicat acum 3 zile</span><span class="apply">Aplică →</span></div></article>
+        <article class="job" data-country="Denmark" data-title="Muncitor în construcții"><span class="badge">Verificat</span><h3>Muncitor în construcții</h3><p>BuildNord · Aarhus, Danemarca</p><div class="tags"><span class="tag">Normă întreagă</span><span class="tag">€2.850/lună</span></div><div class="job-bottom"><span>Publicat acum 4 zile</span><span class="apply">Aplică →</span></div></article>
+        <article class="job" data-country="Romania" data-title="Dezvoltator software junior"><span class="badge">Verificat</span><h3>Dezvoltator software junior</h3><p>Digital Forge · Cluj-Napoca, România</p><div class="tags"><span class="tag">Opțiuni de lucru la distanță</span><span class="tag">€1.600/lună</span></div><div class="job-bottom"><span>Publicat acum 5 zile</span><span class="apply">Aplică →</span></div></article>
+      </div><p id="empty" class="hidden" style="text-align:center;color:var(--muted);padding:24px">Niciun job nu corespunde căutării. Încearcă altă țară sau alt cuvânt-cheie.</p>
+    </div></section>
+    <section id="how"><div class="wrap"><div class="section-head"><div><div class="eyebrow" style="color:var(--blue)">Simplu și cu sprijin</div><h2>Cum te ajută WorkWay să te angajezi</h2></div></div><div class="steps"><div class="step"><h3>Creează-ți profilul</h3><p>Adaugă competențele, experiența profesională și destinația preferată. Profilul tău este vizibil doar angajatorilor verificați.</p></div><div class="step"><h3>Aplică cu încredere</h3><p>Aplică la posturi clare și verificate. Vezi dinainte informațiile despre salariu, cerințele lingvistice și sprijinul pentru relocare.</p></div><div class="step"><h3>Pregătește-ți mutarea</h3><p>Primește îndrumare pentru documente, cazare, înregistrare locală și adaptarea în noua țară.</p></div></div></div></section>
+    <section class="contact" id="contact"><div class="wrap contact-grid"><div><div class="eyebrow">Suntem aici să te ajutăm</div><h2>Contactează-ne</h2><p>Ai întrebări despre joburi, mutarea în Europa sau folosirea platformei? Trimite-ne un mesaj, iar echipa noastră de suport îți va răspunde în maximum două zile lucrătoare.</p><div class="contact-details"><span>✉ support@workwayeurope.com</span><span>☎ +31 70 000 0000</span><span>◷ Luni–Vineri, 09:00–17:00 CET</span></div></div><form class="contact-form" onsubmit="sendMessage(event)"><input required placeholder="Numele tău" /><input required type="email" placeholder="Adresa de e-mail" /><input class="wide" placeholder="Subiect" /><textarea required placeholder="Cum te putem ajuta?"></textarea><button class="btn btn-primary wide" type="submit">Trimite mesajul</button><div class="form-message" id="formMessage">Mulțumim — mesajul tău a fost trimis.</div></form></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>© 2026 WorkWay Europe</span><span>Confidențialitate · Termeni · Portal angajatori</span></div></footer>
+  <script>
+    const filters = document.querySelectorAll('.filter');
+    function filterJobs(country='all', keyword='') {
+      let shown=0;
+      document.querySelectorAll('.job').forEach(job => {
+        const matchesCountry = country === 'all' || job.dataset.country === country;
+        const matchesWord = !keyword || job.dataset.title.toLowerCase().includes(keyword.toLowerCase()) || job.textContent.toLowerCase().includes(keyword.toLowerCase());
+        job.classList.toggle('hidden', !(matchesCountry && matchesWord));
+        if (matchesCountry && matchesWord) shown++;
+      });
+      document.getElementById('empty').classList.toggle('hidden', shown !== 0);
+    }
+    filters.forEach(button => button.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active')); button.classList.add('active'); filterJobs(button.dataset.country);
+    }));
+    function setCountry(country) { document.getElementById('countrySelect').value=country; document.querySelector(`[data-country="${country}"]`).click(); }
+    function searchJobs() { const country=document.getElementById('countrySelect').value; const keyword=document.getElementById('keyword').value; filters.forEach(b=>b.classList.toggle('active',b.dataset.country===country)); filterJobs(country,keyword); document.getElementById('jobs').scrollIntoView({behavior:'smooth'}); }
+    function sendMessage(event) { event.preventDefault(); document.getElementById('formMessage').style.display='block'; event.target.reset(); }
+  </script>
+</body>
+</html>
